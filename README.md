@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://gave92.github.io/SimCSS/">
+  <a href="#">
     <img src="https://github.com/gave92/simcss/blob/master/docs/images/simcss-logo.png?raw=true" width="170" />
   </a>
 
