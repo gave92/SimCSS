@@ -21,9 +21,21 @@ Quick example to get started.
 #### 1. Create a "styles.css" file with this content
 
 ```CSS
-* {FontSize: 20}                                        /* I like big fonts all over the place */
-From, Goto {BackgroundColor: "yellow"; ShowName: "off"} /* Applies to Goto and From blocks */
+* {FontSize: 20}                   /* I like big fonts all over the place */
+.line, .annotation {FontSize: 20}  /* Applies to lines and annotations */
+
+#TEST {ForegroundColor: 1 0 0}     /* Applies to blocks called "TEST" */
+
+[name|=mass] {Orientation: "left"} /* Applies to "Mass", "Mass2", ... */
+
+Subsystem Outport {BackgroundColor: "magenta";}         /* Applies to outports inside subsystems */
+
+:commented {BackgroundColor: 0.3 0.3 0.3}               /* Applies to commented blocks */
+
 Constant {width: 70; Height: 40}                        /* Change Constant blocks size */
+
+From, Goto {BackgroundColor: "yellow"; ShowName: "off"} /* Applies to Goto and From blocks */
+[GotoTag=A] {Commented: "on"}                           /* Comments Goto and From blocks with "GotoTag" = "A" */
 ```
 
 #### 2. Apply styles to current Simulink model
