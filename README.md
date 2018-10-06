@@ -1,4 +1,8 @@
 <p align="center">
+  <a href="https://gave92.github.io/SimCSS/">
+    <img src="https://github.com/gave92/simcss/blob/master/docs/images/simcss-logo.png?raw=true" width="170" />
+  </a>
+
   <h3 align="center">SimCSS</h3>
 
   <p align="center">
