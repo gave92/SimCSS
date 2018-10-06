@@ -33,7 +33,7 @@ element1 element2 | Subsystem Outport | Apply style to outports inside subsystem
 
 Quick example to get started.
 
-#### 1. Create a "styles.css" file with this content
+#### 1. Create a "styles.css" file with your styles
 
 ```CSS
 * {FontSize: 20}                   /* I like big fonts all over the place */
