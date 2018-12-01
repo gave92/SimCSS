@@ -1,4 +1,4 @@
-function [] = applystyle(h,s)
+function [] = applyCSS(h,s)
     try
         if ~any(strcmp(javaclasspath,which('cssparser.jar')))
             javaaddpath(which('cssparser.jar'));
