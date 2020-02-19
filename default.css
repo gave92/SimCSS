@@ -1,0 +1,25 @@
+* {FontSize: -1} /* default font size */
+.line {FontSize: -1}
+.annotation {FontSize: 16}
+
+Subsystem Inport {BackgroundColor: "lightblue";} /* Applies to inports inside subsystems */
+Subsystem Outport {BackgroundColor: "magenta";} /* Applies to outports inside subsystems */
+Subsystem TriggerPort {BackgroundColor: "darkgreen"}
+Subsystem EnablePort [StatesWhenEnabling="held"] {BackgroundColor: "darkgreen"}
+Subsystem EnablePort [StatesWhenEnabling="reset"] {BackgroundColor: "darkgreen"}
+
+/*Constant {BackgroundColor: "green"}*/
+From, Goto {ShowName: "off"}
+Switch {BackgroundColor: "orange"}
+
+[Operator="AND"] {BackgroundColor: "red"}
+[Operator="OR"] {BackgroundColor: "green"}
+[Operator="NOR"] {BackgroundColor: "orange"}
+[Operator="NOT"] {BackgroundColor: "white"}
+
+MinMax [Function="max"] {BackgroundColor: "red"}
+MinMax [Function="min"] {BackgroundColor: "green"}
+
+/*.line {SignalPropagation: "on"}*/
+
+FromWorkspace, ToWorkspace, Scope, Display {ForegroundColor: "red"}

@@ -1,0 +1,25 @@
+* {FontSize: -1} /* default font size */
+.line {FontSize: -1}
+.annotation {FontSize: 16}
+
+Inport {BackgroundColor: "lightblue";} /* Applies to inports */
+Outport {BackgroundColor: "[0.615686, 0.921569, 0.121569]";} /* Applies to outports */
+TriggerPort {BackgroundColor: "darkgreen"}
+EnablePort [StatesWhenEnabling="held"] {BackgroundColor: "darkgreen"}
+EnablePort [StatesWhenEnabling="reset"] {BackgroundColor: "darkgreen"}
+
+/*Constant {BackgroundColor: "green"}*/
+From, Goto {ShowName: "off"}
+Switch {BackgroundColor: "[1.000000, 1.000000, 0.000000]"}
+
+[Operator="AND"] {BackgroundColor: "[1.000000, 0.415686, 0.423529]"}
+[Operator="OR"] {BackgroundColor: "[0.564706, 1.000000, 0.949020]"}
+[Operator="NOR"] {BackgroundColor: "orange"}
+[Operator="NOT"] {BackgroundColor: "red"}
+
+MinMax [Function="max"] {BackgroundColor: "[1.000000, 0.415686, 0.423529]"}
+MinMax [Function="min"] {BackgroundColor: "[0.564706, 1.000000, 0.949020]"}
+
+/*.line {SignalPropagation: "on"}*/
+
+FromWorkspace, ToWorkspace, Scope, Display {ForegroundColor: "red"; BackgroundColor: "white"}

@@ -34,7 +34,7 @@ function [] = applyCSS(h,s)
                         value=parsevalue(char(getPropertyValue(style,myStyle)));
                         if isnumeric(value), value = mat2str(value); end
                         try
-                            set_param(object,myStyle,value);
+                            set(object,myStyle,value);
                         catch ex
                             %warning(ex.message)
                         end
@@ -88,35 +88,67 @@ function [ objects ] = selectobjects(parents,rule)
 
     id = regexp(myRule, '^\*?\#(?<name>\w+)', 'names');
     if ~isempty(id)
-        objects=[objects;find_system(parents,'includecommented','on','casesensitive','off','name',id.name)];
+        if getversion >= 2012
+            objects=[objects;find_system(parents,'includecommented','on','casesensitive','off','name',id.name)];
+        else
+            objects=[objects;find_system(parents,'casesensitive','off','name',id.name)];
+        end
     end
     selector = regexp(myRule, '^\*?\:(?<prop>\w+)', 'names');
     if ~isempty(selector)
-        objects=[objects;find_system(parents,'includecommented','on','casesensitive','off',selector.prop,'on')];
+        if getversion >= 2012
+            objects=[objects;find_system(parents,'includecommented','on','casesensitive','off',selector.prop,'on')];
+        else
+            objects=[objects;find_system(parents,'casesensitive','off',selector.prop,'on')];
+        end
     end
     type = regexp(myRule, '^\*?\.(?<type>\w+)', 'names');
     if ~isempty(type)
-        objects=[objects;find_system(parents,'findall','on','includecommented','on','casesensitive','off','type',type.type)];
+        if getversion >= 2012
+            objects=[objects;find_system(parents,'findall','on','includecommented','on','casesensitive','off','type',type.type)];
+        else
+            objects=[objects;find_system(parents,'findall','on','casesensitive','off','type',type.type)];
+        end
     end
     blocktype = regexp(myRule, '^(?<blocktype>\w+)$', 'names');
     if ~isempty(blocktype)
-        objects=[objects;find_system(parents,'includecommented','on','casesensitive','off','blocktype',blocktype.blocktype)];
+        if getversion >= 2012
+            objects=[objects;find_system(parents,'includecommented','on','casesensitive','off','blocktype',blocktype.blocktype)];
+        else
+            objects=[objects;find_system(parents,'casesensitive','off','blocktype',blocktype.blocktype)];
+        end
     end    
     attr = regexp(myRule, '^\*?\[(?<Attr>\w+)="(?<Value>\w+)"\]$', 'names');
     if ~isempty(attr)
-        objects=[objects;find_system(parents,'includecommented','on','casesensitive','off',attr.Attr,attr.Value)];
+        if getversion >= 2012
+            objects=[objects;find_system(parents,'includecommented','on','casesensitive','off',attr.Attr,attr.Value)];
+        else
+            objects=[objects;find_system(parents,'casesensitive','off',attr.Attr,attr.Value)];
+        end
     end
     attr = regexp(myRule, '^\*?\[(?<Attr>\w+)\|="(?<Value>\w+)"\]$', 'names');
     if ~isempty(attr)
-        objects=[objects;find_system(parents,'regexp','on','includecommented','on','casesensitive','off',attr.Attr,['^',attr.Value])];
+        if getversion >= 2012
+            objects=[objects;find_system(parents,'regexp','on','includecommented','on','casesensitive','off',attr.Attr,['^',attr.Value])];
+        else
+            objects=[objects;find_system(parents,'regexp','on','casesensitive','off',attr.Attr,['^',attr.Value])];
+        end
     end
     attr = regexp(myRule, '^\*?\[(?<Attr>\w+)\*="(?<Value>\w+)"\]$', 'names');
     if ~isempty(attr)
-        objects=[objects;find_system(parents,'regexp','on','includecommented','on','casesensitive','off',attr.Attr,attr.Value)];
+        if getversion >= 2012
+            objects=[objects;find_system(parents,'regexp','on','includecommented','on','casesensitive','off',attr.Attr,attr.Value)];
+        else
+            objects=[objects;find_system(parents,'regexp','on','casesensitive','off',attr.Attr,attr.Value)];
+        end
     end
     
     if regexp(myRule, '^\*$')
-        objects=[objects;find_system(parents,'includecommented','on','casesensitive','off')];
+        if getversion >= 2012
+            objects=[objects;find_system(parents,'includecommented','on','casesensitive','off')];
+        else
+            objects=[objects;find_system(parents,'casesensitive','off')];
+        end
     end
 
     % Split space delimiters
