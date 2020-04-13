@@ -12,7 +12,7 @@ function [] = applyCSS(h,s)
         import org.w3c.dom.css.CSSStyleSheet
         import org.w3c.css.sac.InputSource
 
-        special=struct('width',@setWidth,'height',@setHeight);
+        special=struct('width',@setWidth,'height',@setHeight,'fontsize',@setFontSize);
 
         r = java.io.FileReader(which(s));
         parser = CSSOMParser(SACParserCSS3());
@@ -84,7 +84,9 @@ function [ objects ] = selectobjects(parents,rule)
         %continue
     end
 
-    myRule=strtok(rule,' ');
+    %myRule=strtok(rule,' ');
+    toks=regexp(rule,'[^\s\[]+|\[[^\[\]]*\]','match');
+    myRule=toks{1};
 
     id = regexp(myRule, '^\*?\#(?<name>\w+)', 'names');
     if ~isempty(id)
@@ -118,7 +120,7 @@ function [ objects ] = selectobjects(parents,rule)
             objects=[objects;find_system(parents,'casesensitive','off','blocktype',blocktype.blocktype)];
         end
     end    
-    attr = regexp(myRule, '^\*?\[(?<Attr>\w+)="(?<Value>\w+)"\]$', 'names');
+    attr = regexp(myRule, '^\*?\[(?<Attr>\w+)="(?<Value>[^\[\]]*)"\]$', 'names');
     if ~isempty(attr)
         if getversion >= 2012
             objects=[objects;find_system(parents,'includecommented','on','casesensitive','off',attr.Attr,attr.Value)];
@@ -126,7 +128,15 @@ function [ objects ] = selectobjects(parents,rule)
             objects=[objects;find_system(parents,'casesensitive','off',attr.Attr,attr.Value)];
         end
     end
-    attr = regexp(myRule, '^\*?\[(?<Attr>\w+)\|="(?<Value>\w+)"\]$', 'names');
+    attr = regexp(myRule, '^\*?\[(?<Attr>\w+)~="(?<Value>[^\[\]]*)"\]$', 'names');
+    if ~isempty(attr)
+        if getversion >= 2012            
+            objects=[objects;setdiff(parents,find_system(parents,'includecommented','on','casesensitive','off',attr.Attr,attr.Value));];
+        else
+            objects=[objects;setdiff(parents,find_system(parents,'casesensitive','off',attr.Attr,attr.Value));];
+        end
+    end
+    attr = regexp(myRule, '^\*?\[(?<Attr>\w+)\|="(?<Value>[^\[\]]*)"\]$', 'names');
     if ~isempty(attr)
         if getversion >= 2012
             objects=[objects;find_system(parents,'regexp','on','includecommented','on','casesensitive','off',attr.Attr,['^',attr.Value])];
@@ -134,7 +144,7 @@ function [ objects ] = selectobjects(parents,rule)
             objects=[objects;find_system(parents,'regexp','on','casesensitive','off',attr.Attr,['^',attr.Value])];
         end
     end
-    attr = regexp(myRule, '^\*?\[(?<Attr>\w+)\*="(?<Value>\w+)"\]$', 'names');
+    attr = regexp(myRule, '^\*?\[(?<Attr>\w+)\*="(?<Value>[^\[\]]*)"\]$', 'names');
     if ~isempty(attr)
         if getversion >= 2012
             objects=[objects;find_system(parents,'regexp','on','includecommented','on','casesensitive','off',attr.Attr,attr.Value)];
@@ -152,8 +162,9 @@ function [ objects ] = selectobjects(parents,rule)
     end
 
     % Split space delimiters
-    rules=textscan(rule,'%s','delimiter',' ');
-    rules=rules{:};
+    %rules=textscan(rule,'%s','delimiter',' ');
+    %rules=rules{:};
+    rules=toks;
     if length(rules) > 1
         for r=rules
             objects=selectobjects(objects,join(rules(2:end),' '));
@@ -194,3 +205,15 @@ function []=setHeight(object,style)
     end
 end
 
+function []=setFontSize(object,style)
+	value=parsevalue(style);
+    try
+        set_param(object,'FontSize',value);
+        if strcmp(get(object,'type'),'annotation')
+            new_text = regexprep(get(object,'Text'),'font-size:\d+px',sprintf('font-size:%dpx',value));
+            set_param(object,'Text',new_text);
+        end
+    catch ex
+        %warning(ex.message)
+    end
+end

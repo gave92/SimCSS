@@ -10,7 +10,8 @@ EnablePort [StatesWhenEnabling="reset"] {BackgroundColor: "darkgreen"}
 
 /*Constant {BackgroundColor: "green"}*/
 From, Goto {ShowName: "off"}
-Switch {BackgroundColor: "[1.000000, 1.000000, 0.000000]"}
+Switch [Criteria="u2 ~= 0"] {ForegroundColor: "black"; BackgroundColor: "[1.000000, 1.000000, 0.000000]"}
+Switch [Criteria~="u2 ~= 0"] {ForegroundColor: "red"; BackgroundColor: "[1.000000, 1.000000, 0.000000]"}
 
 [Operator="AND"] {BackgroundColor: "[1.000000, 0.415686, 0.423529]"}
 [Operator="OR"] {BackgroundColor: "[0.564706, 1.000000, 0.949020]"}
